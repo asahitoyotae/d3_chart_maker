@@ -31,8 +31,6 @@ const Bars = () => {
     const colorArray =
       JSON.parse(localStorage.getItem("barChartRaceColors")) || [];
 
-    console.log(data, "data", colorArray, "colors");
-
     if (!data || data.length <= 0) return;
 
     const duration = 250;

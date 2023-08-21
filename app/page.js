@@ -1,4 +1,5 @@
-import Image from "next/image";
+"use client";
+
 import Bars from "./bar-chart-race/page";
 import Navbar from "./components/nav";
 import Options from "./components/options";
