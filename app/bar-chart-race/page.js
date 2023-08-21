@@ -394,8 +394,12 @@ const Bars = () => {
   };
 
   const [details, setDetails] = useState({
-    title: "Bar Chart Race Largest Companies in the World",
-    subtitle: "some details about the data and probably data sources",
+    title:
+      localStorage.getItem("barTitle") ||
+      "Bar Chart Race Largest Companies in the World",
+    subtitle:
+      localStorage.getItem("barSubtitle") ||
+      "some details about the data and probably data sources",
   });
   const [fullScreen, setFullScreen] = useState(false);
 
@@ -442,11 +446,9 @@ const Bars = () => {
         className=" bg-white flex flex-col bar_chart_container col-span-7 border-2 border-gray-300 rounded-xl relative"
       >
         <h3 className="font-bold text-2xl text-center w-full">
-          {localStorage.getItem("barTitle") || details.title}
+          {details.title}
         </h3>
-        <p className="w-full text-center">
-          {localStorage.getItem("barSubtitle") || details.subtitle}
-        </p>
+        <p className="w-full text-center">{details.subtitle}</p>
         <div ref={contRef} className="w-full h-full flex-1">
           <svg ref={svgRef}>
             <g ref={axisRef}></g>
