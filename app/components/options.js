@@ -32,19 +32,19 @@ const Options = () => {
         </Link>
       </div>
       <div className="my-8">
-        <h1 className="text-black text-4xl font-bold text-center">
+        <h1 className="text-black text-2xl  md:text-4xl font-bold text-center">
           More are Coming Soon
         </h1>
       </div>
       <div className="py-16 px-1 md:px-40 lg:px-72">
-        <h1 className="text-4xl my-8 font-bold text-black">
+        <h1 className=" text-2xl md:text-4xl my-8 font-bold text-black">
           Quickly Create a Bar Chart Race without Coding
         </h1>
         <p className="text-black text-xl tracking-wide leading-[1.8]">
           Make a dynamic visualization of your data with Datalytics bar chart
           race generator. Best for storytelling with data.
         </p>
-        <h2 className="text-black text-2xl font-bold my-8">
+        <h2 className="text-black text-xl md:text-2xl font-bold my-8">
           Quick Introduction about Bar chart
         </h2>
         <p className="text-black text-xl tracking-wide py-4 leading-[1.8]">
@@ -64,7 +64,7 @@ const Options = () => {
           understandable and digestible.
         </p>
 
-        <h2 className="text-black text-2xl font-bold my-8">
+        <h2 className="text-black text-xl md:text-2xl font-bold my-8">
           The parts of Our Bar Chart Race
         </h2>
         <p className="text-black text-xl tracking-wide py-4 leading-[1.8]">
@@ -85,7 +85,7 @@ const Options = () => {
           for that particular year or time.
         </p>
 
-        <h2 className="text-black text-2xl font-bold my-8">
+        <h2 className="text-black text-xl md:text-2xl font-bold my-8">
           How to Use Datalytics Bar Chart Race
         </h2>
 
@@ -151,7 +151,7 @@ const Options = () => {
           </div>
         </div>
 
-        <h2 className="text-black text-2xl font-bold my-8">
+        <h2 className="text-black text-xl md:text-2xl font-bold my-8">
           Why Choose Our Bar Chart Race Generator?
         </h2>
         <p className="text-black text-xl tracking-wide py-4 leading-[1.8]">

@@ -457,7 +457,7 @@ const Bars = () => {
         //id="chartcontainer"
         className=" bg-white flex flex-col bar_chart_container col-span-7 border-2 border-gray-300 rounded-xl relative"
       >
-        <h3 className="font-bold text-2xl text-center w-full">
+        <h3 className="font-bold text-xl md:text-2xl text-center w-full">
           {details.title}
         </h3>
         <p className="w-full text-center">{details.subtitle}</p>
