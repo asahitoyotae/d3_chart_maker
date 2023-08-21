@@ -10,7 +10,7 @@ import Donate from "./donate";
 const Navbar = () => {
   const [donate, setDonate] = useState(false);
   return (
-    <nav>
+    <nav className=" py-3 px-3 md:px-10">
       <div className="flex gap-6 relative">
         <Image
           src="/faveicon.png"

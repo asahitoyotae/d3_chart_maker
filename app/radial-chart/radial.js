@@ -203,7 +203,7 @@ const Radial = ({ data, color, change, details }) => {
       ref={chartRef}
       className="col-span-7 bg-white p-5"
     >
-      <h1 className="w-full text-center text-2xl font-bold ">
+      <h1 className="w-full text-center text-xl md:text-2xl font-bold ">
         {details.title}
       </h1>
       <p className="text-center w-ful">{details.sub}</p>

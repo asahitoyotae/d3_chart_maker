@@ -7,7 +7,7 @@ import Footer from "./components/footer";
 
 export default function Home() {
   return (
-    <main className="h-full items-center justify-between">
+    <main className="h-full flex flex-col items-center justify-between">
       <Navbar />
       <Bars />
       <Options />

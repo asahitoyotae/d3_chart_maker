@@ -426,7 +426,7 @@ const Bars = () => {
 
   const handleFullScreenRequest = () => {
     setFullScreen(true);
-    const fullScreenElement = document.getElementById("chartcontainer");
+    const fullScreenElement = document.getElementById("bar_chart");
     if (fullScreenElement.requestFullscreen) {
       fullScreenElement.requestFullscreen();
     } else if (fullScreenElement.mozRequestFullScreen) {
@@ -451,9 +451,10 @@ const Bars = () => {
   const [indictor, setIndicator] = useState(0);
 
   return (
-    <div id="bar_chart" className="w-full grid grid-cols-9 gap-10">
+    <div className="w-full flex flex-col md:grid md:grid-cols-9 gap-10">
       <div
-        id="chartcontainer"
+        id="bar_chart"
+        //id="chartcontainer"
         className=" bg-white flex flex-col bar_chart_container col-span-7 border-2 border-gray-300 rounded-xl relative"
       >
         <h3 className="font-bold text-2xl text-center w-full">

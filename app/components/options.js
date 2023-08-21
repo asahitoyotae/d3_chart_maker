@@ -36,7 +36,7 @@ const Options = () => {
           More are Coming Soon
         </h1>
       </div>
-      <div className="py-16 px-60">
+      <div className="py-16 px-1 md:px-40 lg:px-72">
         <h1 className="text-4xl my-8 font-bold text-black">
           Quickly Create a Bar Chart Race without Coding
         </h1>
@@ -45,7 +45,7 @@ const Options = () => {
           race generator. Best for storytelling with data.
         </p>
         <h2 className="text-black text-2xl font-bold my-8">
-          Quick Introduction about Bar chart race
+          Quick Introduction about Bar chart
         </h2>
         <p className="text-black text-xl tracking-wide py-4 leading-[1.8]">
           Bar chart race is becoming more and more popular on YouTube and
@@ -88,8 +88,9 @@ const Options = () => {
         <h2 className="text-black text-2xl font-bold my-8">
           How to Use Datalytics Bar Chart Race
         </h2>
-        <div className="flex flex-row gap-16">
-          <div className="sample_options  rounded-xl p-4 col-span-2 bg-transparent border-2 border-gray-300 flex flex-col gap-3 items-center ">
+
+        <div className="flex flex-col gap-8 md:grid md:grid-cols-4 text-black text-xl tracking-wide py-4 leading-[1.8]">
+          <div className="col-span-2 sample_options  rounded-xl p-4 col-span-2 bg-transparent border-2 border-gray-300 flex flex-col gap-3 items-center ">
             <div className="change_details">
               <label>Title</label>
               <input type="string" placeholder="chart title..." />
@@ -137,8 +138,7 @@ const Options = () => {
               </button>
             </div>
           </div>
-
-          <p className="text-black text-xl tracking-wide py-4 leading-[1.8]">
+          <div className="col-span-2">
             Simply upload your data and click on the{" "}
             <span className="px-4 py-1 text-sm rounded-xl text-white font-bold bg-orange-500">
               process data
@@ -148,7 +148,7 @@ const Options = () => {
             the colors of individual bars. The maximum number of bars supported
             is 15. Bars can be colored individually by providing colors in the
             Excel file, or by category if your data includes categories.
-          </p>
+          </div>
         </div>
 
         <h2 className="text-black text-2xl font-bold my-8">

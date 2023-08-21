@@ -10,6 +10,7 @@ import Footer from "../components/footer";
 import { datum } from "./data";
 import "./style.css";
 import Radial from "./radial";
+import Article from "./article";
 
 const RadialAreaChart = () => {
   const [data, setData] = useState(datum);
@@ -74,7 +75,7 @@ const RadialAreaChart = () => {
     <>
       <Navbar />
       <main className="radial_chart my-3">
-        <div className="grid grid-cols-9 gap-4 ">
+        <div className=" flex flex-col gap-4 md:grid md:grid-cols-9">
           <Radial data={data} color={color} change={change} details={details} />
           <div className="col-span-2 border rounded-xl p-3 ">
             <div className="flex flex-col">
@@ -172,6 +173,7 @@ const RadialAreaChart = () => {
             </div>
           </div>
         </div>
+        <Article />
       </main>
       <Footer />
     </>
