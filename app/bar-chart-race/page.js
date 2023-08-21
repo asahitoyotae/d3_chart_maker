@@ -392,15 +392,26 @@ const Bars = () => {
       setDataChange((prev) => !prev);
     });
   };
-
   const [details, setDetails] = useState({
-    title:
-      localStorage.getItem("barTitle") ||
-      "Bar Chart Race Largest Companies in the World",
-    subtitle:
-      localStorage.getItem("barSubtitle") ||
-      "some details about the data and probably data sources",
+    title: "Bar Chart Race Largest Companies in the World",
+    subtitle: "some details about the data and probably data sources",
   });
+  useEffect(() => {
+    if (localStorage.getItem("barTitle")) {
+      setDetails((prev) => ({
+        ...prev,
+        title: localStorage.getItem("barTitle"),
+      }));
+    }
+
+    if (localStorage.getItem("barSubtitle")) {
+      setDetails((prev) => ({
+        ...prev,
+        subtitle: localStorage.getItem("barSubtitle"),
+      }));
+    }
+  }, []);
+
   const [fullScreen, setFullScreen] = useState(false);
 
   const downloadSampleData = () => {
