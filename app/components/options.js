@@ -20,10 +20,10 @@ const Options = () => {
             alt="radial-chart"
           />
           <div className="flex items-center flex-col justify-center">
-            <h4 className="w-full text-left font-bold text-xl">
+            <h4 className="text-black w-full text-left font-bold text-xl">
               Radial Area/Line Chart
             </h4>
-            <p>
+            <p className="text-black">
               A radial line chart displays data points on spokes radiating from
               a central point, illustrating relationships and patterns in
               circular visualizations.
@@ -142,7 +142,7 @@ const Options = () => {
             Simply upload your data and click on the{" "}
             <span className="px-4 py-1 text-sm rounded-xl text-white font-bold bg-orange-500">
               process data
-            </span>{" "}
+            </span>
             button. The bar chart race generator accepts .xlsx files (Excel
             files). You can change the number of bars in the chart and customize
             the colors of individual bars. The maximum number of bars supported

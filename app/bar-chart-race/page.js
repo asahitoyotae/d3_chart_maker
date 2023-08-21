@@ -457,17 +457,17 @@ const Bars = () => {
         //id="chartcontainer"
         className=" bg-white flex flex-col bar_chart_container col-span-7 border-2 border-gray-300 rounded-xl relative"
       >
-        <h3 className="font-bold text-xl md:text-2xl text-center w-full">
+        <h3 className="text-black font-bold text-xl md:text-2xl text-center w-full">
           {details.title}
         </h3>
-        <p className="w-full text-center">{details.subtitle}</p>
+        <p className=" text-black w-full text-center">{details.subtitle}</p>
         <div ref={contRef} className="w-full h-full flex-1">
           <svg ref={svgRef}>
             <g ref={axisRef}></g>
             <g ref={barsRef}></g>
             <g ref={labelsRef}></g>
             <text ref={yearRef}></text>
-          </svg>{" "}
+          </svg>
         </div>
         <div className="absolute top-0 left-0 ml-5 mt-3f flex gap-4">
           <button
@@ -476,7 +476,7 @@ const Bars = () => {
             className=""
             onClick={() => setReplay((prev) => (prev == 0 ? 1 : 0))}
           >
-            <FontAwesomeIcon icon={faReplyAll} />
+            <FontAwesomeIcon icon={faReplyAll} style={{ color: "black" }} />
           </button>
           {fullScreen ? (
             <button
@@ -484,7 +484,7 @@ const Bars = () => {
               onMouseLeave={() => setIndicator(0)}
               onClick={handleExitfullScrenn}
             >
-              <FontAwesomeIcon icon={faCompress} />
+              <FontAwesomeIcon icon={faCompress} style={{ color: "black" }} />
             </button>
           ) : (
             <button
