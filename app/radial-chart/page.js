@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import readXlsxFile from "read-excel-file";
 import { toPng } from "html-to-image";
+import { Helmet } from "react-helmet";
 
 import Navbar from "../components/nav";
 import Footer from "../components/footer";
@@ -73,6 +74,13 @@ const RadialAreaChart = () => {
 
   return (
     <>
+      <Helmet>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8659384252547972"
+          crossorigin="anonymous"
+        ></script>
+      </Helmet>
       <Navbar />
       <main className="radial_chart my-3">
         <div className=" flex flex-col gap-4 md:grid md:grid-cols-9">
