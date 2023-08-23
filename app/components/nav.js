@@ -30,7 +30,7 @@ const Navbar = () => {
         </button>
       </div>
       {donate && (
-        <div className="donate">
+        <div className="donate p-4">
           <Donate setDonate={setDonate} />
         </div>
       )}

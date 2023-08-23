@@ -599,11 +599,17 @@ const Bars = () => {
             </button>
           </div>
         </div>
-        <div className="get_file w-full mt-3 ">
+        <div className="get_file w-full mt-1 ">
+          <label className="font-bold mb-2">
+            updload data{" "}
+            <span className="font-normal">
+              {"("}only accept .xlsx file{")"}
+            </span>
+          </label>
           <input
             type="file"
             name="file"
-            accept=".xls, .xlsx"
+            accept=".xlsx"
             onChange={getDatafromLocal}
           />
           <div>

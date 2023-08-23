@@ -7,7 +7,7 @@ const Donate = ({ setDonate }) => {
   const [amount, setAmount] = useState(10);
 
   return (
-    <div className="px-6 rounded-xl">
+    <div className="w-full bg-white md:w-1/2 lg:w-1/3  px-6 rounded-xl">
       <div className="w-full flex p-6">
         <div className="flex-1"></div>
         <button
