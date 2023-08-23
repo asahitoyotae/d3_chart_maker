@@ -12,6 +12,7 @@ import { datum } from "./data";
 import "./style.css";
 import Radial from "./radial";
 import Article from "./article";
+import ScriptLoader from "./scriptLoader";
 
 const RadialAreaChart = () => {
   const [data, setData] = useState(datum);
@@ -74,14 +75,7 @@ const RadialAreaChart = () => {
 
   return (
     <>
-      <Head>
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8659384252547972"
-          crossorigin="anonymous"
-        ></script>
-      </Head>
-
+      <ScriptLoader />
       <Navbar />
       <main className="radial_chart my-3">
         <div className=" flex flex-col gap-4 md:grid md:grid-cols-9">

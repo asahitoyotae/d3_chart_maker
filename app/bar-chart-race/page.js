@@ -11,6 +11,7 @@ import {
   faExpand,
   faReplyAll,
 } from "@fortawesome/free-solid-svg-icons";
+import ScriptLoader from "../radial-chart/scriptLoader";
 
 const Bars = () => {
   const svgRef = useRef();
@@ -452,6 +453,7 @@ const Bars = () => {
 
   return (
     <div className="w-full flex flex-col md:grid md:grid-cols-9 gap-10">
+      <ScriptLoader />
       <div
         id="bar_chart"
         //id="chartcontainer"
