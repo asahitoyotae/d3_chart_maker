@@ -18,11 +18,7 @@ nav {
   align-items: center;
   justify-content: center;
 }
-.donate > div {
-  background-color: rgb(255, 255, 255);
-  width: 40%;
-  height: 70%;
-}
+
 .indicator1 {
   position: absolute;
   top: 34px;
