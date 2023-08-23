@@ -6,12 +6,13 @@ import "./style.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import Donate from "./donate";
+import Link from "next/link";
 
 const Navbar = () => {
   const [donate, setDonate] = useState(false);
   return (
     <nav className=" py-3 px-3 md:px-10">
-      <div className="flex gap-6 relative">
+      <Link href={"/"} className="flex gap-6 relative">
         <Image
           src="/faveicon.png"
           width={35}
@@ -19,7 +20,7 @@ const Navbar = () => {
           alt="datalytics logo"
         />
         <h2 className="text-black font-bold text-2xl ">Datalytics</h2>
-      </div>
+      </Link>
       <div>
         <button
           onClick={() => setDonate(true)}
