@@ -9,6 +9,13 @@ const ScriptLoader = () => {
     script.crossOrigin = "anonymous";
 
     document.head.append(script);
+
+    const tags = document.createElement("meta");
+
+    tags.setAttribute("name", "google-site-verification");
+    tags.setAttribute("content", "cLQeOK02aLCmDS7rHdPpuMNkgw6fYFgjJRerpEB1NVY");
+
+    document.head.appendChild(tags);
   }, []);
   return;
   null;
