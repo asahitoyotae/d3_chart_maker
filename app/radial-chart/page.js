@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import readXlsxFile from "read-excel-file";
 import { toPng } from "html-to-image";
-import Head from "next/head";
 
 import Navbar from "../components/nav";
 import Footer from "../components/footer";

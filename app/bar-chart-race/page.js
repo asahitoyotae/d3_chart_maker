@@ -12,25 +12,32 @@ import {
   faReplyAll,
 } from "@fortawesome/free-solid-svg-icons";
 import ScriptLoader from "../radial-chart/scriptLoader";
+import Options from "../components/options";
+import Footer from "../components/footer";
+import Navbar from "../components/nav";
 
 const Bars = () => {
   const svgRef = useRef();
   const [dataChange, setDataChange] = useState(false);
   const [file, setFile] = useState({ file: null });
   const [replay, setReplay] = useState(0);
+  const [fullScreen, setFullScreen] = useState(false);
 
   const contRef = useRef();
   const barsRef = useRef();
   const labelsRef = useRef();
   const axisRef = useRef();
   const yearRef = useRef();
+  const flagRef = useRef();
 
   const [heights, setHeight] = useState(null);
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("barChartRaceData")) || datas;
+    console.log("data", data);
     const colorArray =
       JSON.parse(localStorage.getItem("barChartRaceColors")) || [];
+    const flags = JSON.parse(localStorage.getItem("flags")) || [];
 
     if (!data || data.length <= 0) return;
 
@@ -64,6 +71,7 @@ const Bars = () => {
       const data = Array.from(names, (name) => ({
         name,
         value: value(name),
+        flag: getFlag(name),
         color: getColor(name),
       }));
       data.sort((a, b) => d3.descending(a.value, b.value));
@@ -75,6 +83,12 @@ const Bars = () => {
       const colored = colorArray.find((e) => e.name == name);
       if (!colored) return null;
       return colored.color;
+    }
+
+    function getFlag(name) {
+      const bar = flags.find((e) => e.name == name);
+      if (!bar) return "N/A";
+      return bar.flag;
     }
 
     const k = 10;
@@ -152,11 +166,80 @@ const Bars = () => {
           ));
     }
 
+    // function putFlags(svg) {
+    //   let flags = d3
+    //     .select(flagRef.current)
+    //     .selectAll("circle")
+    //     .style("overflow", "hidden");
+
+    //   return ([date, data], transition) => {
+    //     flags
+    //       .data(data.slice(0, n), (d) => d.name)
+    //       .enter()
+    //       .append("defs")
+    //       .append("pattern")
+    //       .attr("id", (d) => `pattern-${d.flag}`) // Unique pattern ID based on data.flag
+    //       .attr("width", 1)
+    //       .attr("height", 1)
+    //       .append("image")
+    //       .attr("x", 0)
+    //       .attr("y", 0)
+    //       .attr("width", y.bandwidth()) // Set the width of your image
+    //       .attr("height", y.bandwidth()) // Set the height of your image
+    //       .attr("xlink:href", (d) => {
+    //         //console.log("flag", d);
+    //         return `/${d.flag}`;
+    //       }); // Use data.flag as the image source
+
+    //     flags = flags
+    //       .data(data.slice(0, n), (d) => d.name)
+    //       .join(
+    //         (enter) =>
+    //           enter
+    //             .append("circle")
+    //             .attr("r", y.bandwidth() / 2)
+    //             .attr("fill", (d) => `url(#pattern-${d.flag})`)
+    //             .attr("fill-opacity", 0)
+    //             .attr("stroke", "black")
+    //             .attr("stroke-opacity", 0)
+    //             .attr(
+    //               "cx",
+    //               (d) =>
+    //                 x((prev.get(d) || d).value) - x(0) + y.bandwidth() / 1.5
+    //             )
+    //             .attr(
+    //               "cy",
+    //               (d) => y((prev.get(d) || d).rank) + y.bandwidth() / 2
+    //             ),
+
+    //         (update) => update,
+
+    //         (exit) =>
+    //           exit
+    //             .transition(transition)
+    //             .attr("fill-opacity", 0)
+    //             .attr("stroke-opacity", 0)
+    //             .attr("cy", (d) => y((prev.get(d) || d).rank + 1))
+    //       )
+    //       .call((flag) =>
+    //         flag
+    //           .transition(transition)
+    //           .attr("r", y.bandwidth() / 2)
+    //           .attr("cx", (d) => x(d.value) - x(0) + y.bandwidth() / 1.5)
+    //           .attr("fill-opacity", 1)
+    //           .attr("stroke-opacity", 1)
+    //           .attr("cy", (d) => y(d.rank) + y.bandwidth() / 2)
+    //       )
+    //       .attr("width", y.bandwidth()) // Set the updated width of your image
+    //       .attr("height", y.bandwidth());
+    //   };
+    // }
+
     function labels(svg) {
       let label = d3
         .select(labelsRef.current)
-        .style("font", "bold 12px var(--sans-serif)")
-        .style("font-weight", "bold")
+        //.style("font", "bold 50px var(--sans-serif)")
+        //.style("font-weight", "bold")
         .attr("fill", "black")
         .style("font-variant-numeric", "tabular-nums")
         .attr("text-anchor", "end")
@@ -178,15 +261,16 @@ const Bars = () => {
                 )
                 .attr("y", y.bandwidth() / 2)
                 .attr("x", -6)
-                .attr("dy", "-0.25em")
+                .attr("dy", "0.25em")
+                .attr("font-size", `${y.bandwidth() - y.bandwidth() / 1.8}`)
                 .attr("opacity", 0)
                 .text((d) => d.name)
                 .call((text) =>
                   text
                     .append("tspan")
-                    .attr("fill-opacity", 0.7)
-                    .attr("font-weight", "normal")
+                    .attr("fill-opacity", 1)
                     .attr("fill", "black")
+                    .attr("font-weight", "bold")
                     .attr("x", -6)
                     .attr("dy", "1.15em")
                 ),
@@ -222,20 +306,23 @@ const Bars = () => {
 
                 const res = (thisBar / maxb) * 100;
 
-                if (res < 8) {
-                  return `translate(${x(d.value) + 15},${y(d.rank)})`;
+                if (res < 14) {
+                  return `translate(${x(d.value) + y.bandwidth() / 2.2},${y(
+                    d.rank
+                  )})`;
                 } else {
                   return `translate(${x(d.value)},${y(d.rank)})`;
                 }
               })
               .attr("opacity", 1)
+              .style("font-size", `${y.bandwidth() - y.bandwidth() / 1.8}`)
               .style("text-anchor", (d) => {
                 const maxb = x(d3.max(data, (d) => d.value));
                 const thisBar = x(d.value);
 
                 const res = (thisBar / maxb) * 100;
 
-                if (res < 8) {
+                if (res < 14) {
                   return "start"; // Align to the left
                 } else {
                   return "end"; // Default alignment
@@ -307,13 +394,16 @@ const Bars = () => {
       return (d) => scale(d.name);
     };
 
-    const x = d3.scaleLinear([0, 1], [0, width - marginRight]);
     const y = d3
       .scaleBand()
       .domain(d3.range(n + 1))
       .range([marginTop, height])
       //.rangeRound([marginTop, marginTop + barSize * (n + 1 + 0.1)])
       .padding(0.1);
+    const x = d3.scaleLinear(
+      [0, 1],
+      [0, width - marginRight - y.bandwidth() * 1.3]
+    );
 
     const svg = d3
       .select(svgRef.current)
@@ -325,6 +415,7 @@ const Bars = () => {
 
     const updateBars = bars(svg);
     const updateAxis = axis(svg);
+    //const updateFlags = putFlags(svg);
     const updateLabels = labels(svg);
     //const updateTicker = ticker();
 
@@ -345,6 +436,7 @@ const Bars = () => {
 
       updateAxis(keyframe, transition);
       updateBars(keyframe, transition);
+      //updateFlags(keyframe, transition);
       updateLabels(keyframe, transition, topBarValue);
       ticker(keyframe[0], transition);
 
@@ -358,7 +450,7 @@ const Bars = () => {
     return () => {
       clearInterval(animationInterval);
     };
-  }, [dataChange, replay, heights]);
+  }, [dataChange, replay, heights, fullScreen]);
 
   const getDatafromLocal = (e) => {
     localStorage.removeItem("barChartRaceData");
@@ -378,6 +470,7 @@ const Bars = () => {
             name: rows[j][0],
             category: rows[j][1],
             color: rows[j][2],
+            flag: rows[j][3],
             value: rows[j][i],
           });
         }
@@ -387,9 +480,15 @@ const Bars = () => {
         color.push({ name: rows[i][0], color: rows[i][2] });
       }
 
+      const flags = [];
+      for (let i = 1; i < rows.length; i++) {
+        flags.push({ name: rows[i][0], flag: rows[i][3] });
+      }
+
       //setFile((prev) => ({ ...prev, data: data, color: color }));
       localStorage.setItem("barChartRaceData", JSON.stringify(data));
       localStorage.setItem("barChartRaceColors", JSON.stringify(color));
+      localStorage.setItem("flags", JSON.stringify(flags));
       setDataChange((prev) => !prev);
     });
   };
@@ -412,8 +511,6 @@ const Bars = () => {
       }));
     }
   }, []);
-
-  const [fullScreen, setFullScreen] = useState(false);
 
   const downloadSampleData = () => {
     const fileURl = "/sample.xlsx";
@@ -452,189 +549,192 @@ const Bars = () => {
   const [indictor, setIndicator] = useState(0);
 
   return (
-    <div className="w-full flex flex-col md:grid md:grid-cols-9 gap-10">
-      <ScriptLoader />
-      <div
-        id="bar_chart"
-        //id="chartcontainer"
-        className=" bg-white flex flex-col bar_chart_container col-span-7 border-2 border-gray-300 rounded-xl relative"
-      >
-        <h3 className="text-black font-bold text-xl md:text-2xl text-center w-full">
-          {details.title}
-        </h3>
-        <p className=" text-black w-full text-center">{details.subtitle}</p>
-        <div ref={contRef} className="w-full h-full flex-1">
-          <svg ref={svgRef}>
-            <g ref={axisRef}></g>
-            <g ref={barsRef}></g>
-            <g ref={labelsRef}></g>
-            <text ref={yearRef}></text>
-          </svg>
-        </div>
-        <div className="absolute top-0 left-0 ml-5 mt-3f flex gap-4">
-          <button
-            onMouseEnter={() => setIndicator(1)}
-            onMouseLeave={() => setIndicator(0)}
-            className=""
-            onClick={() => setReplay((prev) => (prev == 0 ? 1 : 0))}
+    <>
+      <div className="w-full flex flex-col gap-10 md:grid md:grid-cols-9">
+        <ScriptLoader />
+        <div
+          id="bar_chart"
+          //id="chartcontainer"
+          className="bg-white flex flex-col bar_chart_container md:col-span-7 border-2 border-gray-300 rounded-xl relative"
+        >
+          <h3 className="text-black font-bold text-xl md:text-2xl text-center w-full">
+            {details.title}
+          </h3>
+          <p className=" text-black w-full text-center">{details.subtitle}</p>
+          <div ref={contRef} className="w-full h-full flex-1">
+            <svg ref={svgRef}>
+              <g ref={axisRef}></g>
+              <g ref={barsRef}></g>
+              <g ref={labelsRef}></g>
+              <g className="flags" ref={flagRef}></g>
+              <text ref={yearRef}></text>
+            </svg>
+          </div>
+          <div className="absolute top-0 left-0 ml-5 mt-3f flex gap-4">
+            <button
+              onMouseEnter={() => setIndicator(1)}
+              onMouseLeave={() => setIndicator(0)}
+              className=""
+              onClick={() => setReplay((prev) => (prev == 0 ? 1 : 0))}
+            >
+              <FontAwesomeIcon icon={faReplyAll} style={{ color: "black" }} />
+            </button>
+            {fullScreen ? (
+              <button
+                onMouseEnter={() => setIndicator(2)}
+                onMouseLeave={() => setIndicator(0)}
+                onClick={handleExitfullScrenn}
+              >
+                <FontAwesomeIcon icon={faCompress} style={{ color: "black" }} />
+              </button>
+            ) : (
+              <button
+                onMouseEnter={() => setIndicator(2)}
+                onMouseLeave={() => setIndicator(0)}
+                onClick={handleFullScreenRequest}
+              >
+                <FontAwesomeIcon icon={faExpand} />
+              </button>
+            )}
+          </div>
+          <div
+            className={`indicator1 ${
+              indictor == 1 ? "active_indicator" : "inactive_indicator"
+            }`}
           >
-            <FontAwesomeIcon icon={faReplyAll} style={{ color: "black" }} />
-          </button>
-          {fullScreen ? (
-            <button
-              onMouseEnter={() => setIndicator(2)}
-              onMouseLeave={() => setIndicator(0)}
-              onClick={handleExitfullScrenn}
-            >
-              <FontAwesomeIcon icon={faCompress} style={{ color: "black" }} />
-            </button>
-          ) : (
-            <button
-              onMouseEnter={() => setIndicator(2)}
-              onMouseLeave={() => setIndicator(0)}
-              onClick={handleFullScreenRequest}
-            >
-              <FontAwesomeIcon icon={faExpand} />
-            </button>
-          )}
+            replay
+          </div>
+          <div
+            className={`indicator2 ${
+              indictor == 2 ? "active_indicator" : "inactive_indicator"
+            } `}
+          >
+            toggle fullscreen{" "}
+            <span className="notes">
+              note: please use this button to exit fullscreen to maintain aspect
+              ratio
+            </span>
+          </div>
         </div>
-        <div
-          className={`indicator1 ${
-            indictor == 1 ? "active_indicator" : "inactive_indicator"
-          }`}
-        >
-          replay
-        </div>
-        <div
-          className={`indicator2 ${
-            indictor == 2 ? "active_indicator" : "inactive_indicator"
-          } `}
-        >
-          toggle fullscreen{" "}
-          <span className="notes">
-            note: please use this button to exit fullscreen to maintain aspect
-            ratio
-          </span>
-        </div>
-      </div>
 
-      <div className="rounded-xl p-4 col-span-2 bg-transparent border-2 border-gray-300 flex flex-col gap-3 items-center ">
-        <div className="change_details">
-          <label>Title</label>
-          <input
-            type="string"
-            placeholder="chart title..."
-            onChange={(e) => {
-              localStorage.setItem("barTitle", e.target.value);
-              setDetails((prev) => ({ ...prev, title: e.target.value }));
-            }}
-          />
-        </div>
-        <div className="change_details flex">
-          <label>subtitle</label>
-          <input
-            placeholder="additional chart info..."
-            type="string"
-            onChange={(e) => {
-              localStorage.setItem("barSubtitle", e.target.value);
-              setDetails((prev) => ({ ...prev, subtitle: e.target.value }));
-            }}
-          />
-        </div>
-        <div className="w-full flex">
-          <div className="change_details px-4">
-            <label>n - bars</label>
+        <div className="rounded-xl p-4 md:col-span-2 bg-transparent border-2 border-gray-300 flex flex-col gap-3 items-center ">
+          <div className="change_details">
+            <label>Title</label>
             <input
-              type="number"
-              placeholder="max - 15"
-              // defaultValue={
-              //   JSON.parse(localStorage.getItem("numberOfBars")) || 10
-              // }
-              min={3}
-              max={15}
+              type="string"
+              placeholder="chart title..."
               onChange={(e) => {
-                if (e.target.value > 15 || e.target.value < 3) return;
-                localStorage.setItem("numberOfBars", e.target.value);
+                localStorage.setItem("barTitle", e.target.value);
+                setDetails((prev) => ({ ...prev, title: e.target.value }));
               }}
             />
           </div>
+          <div className="change_details flex">
+            <label>subtitle</label>
+            <input
+              placeholder="additional chart info..."
+              type="string"
+              onChange={(e) => {
+                localStorage.setItem("barSubtitle", e.target.value);
+                setDetails((prev) => ({ ...prev, subtitle: e.target.value }));
+              }}
+            />
+          </div>
+          <div className="w-full flex">
+            <div className="change_details px-4">
+              <label>n - bars</label>
+              <input
+                type="number"
+                placeholder="max - 15"
+                // defaultValue={
+                //   JSON.parse(localStorage.getItem("numberOfBars")) || 10
+                // }
+                min={3}
+                max={15}
+                onChange={(e) => {
+                  if (e.target.value > 15 || e.target.value < 3) return;
+                  localStorage.setItem("numberOfBars", e.target.value);
+                }}
+              />
+            </div>
 
-          <div className="w-2/3 flex items-center justify-center">
+            <div className="w-2/3 flex items-center justify-center">
+              <button
+                className="mt-7 bg-blue-500 hover:bg-blue-600 rounded-xl text-white font-bold w-full h-1/2 duration-500"
+                onClick={() => {
+                  if (
+                    JSON.parse(localStorage.getItem("numberOfBars")) > 15 ||
+                    JSON.parse(localStorage.getItem("numberOfBars")) < 3
+                  ) {
+                    return;
+                  }
+                  location.reload();
+                }}
+              >
+                apply
+              </button>
+            </div>
+          </div>
+          <div className="change_details">
+            <label>bar colors</label>
+            <div className="flex gap-4">
+              <button
+                className="bg-blue-500 hover:bg-blue-600 rounded-xl text-white font-bold w-full duration-500"
+                onClick={() => {
+                  if (localStorage.getItem("cat")) return;
+                  localStorage.setItem("cat", "true");
+                  location.reload();
+                }}
+              >
+                by bars
+              </button>
+              <button
+                className="bg-blue-500 hover:bg-blue-600 rounded-xl text-white font-bold w-full  duration-500"
+                onClick={() => {
+                  if (!localStorage.getItem("cat")) return;
+                  localStorage.removeItem("cat");
+                  location.reload();
+                }}
+              >
+                by category
+              </button>
+            </div>
+          </div>
+          <div className="get_file w-full mt-1 ">
+            <label className="font-bold mb-2">
+              updload data{" "}
+              <span className="font-normal">
+                {"("}only accept .xlsx file{")"}
+              </span>
+            </label>
+            <input
+              type="file"
+              name="file"
+              accept=".xlsx"
+              onChange={getDatafromLocal}
+            />
+            <div>
+              <button
+                onClick={convertData}
+                className="border hover:bg-orange-600 rounded-xl bg-orange-500 font-bold text-white w-1/2 duration-500"
+              >
+                process data
+              </button>
+            </div>
+          </div>
+          <div className="change_details">
+            <label>sample data</label>
+            <p>sample.xlsx</p>
             <button
-              className="mt-7 bg-blue-500 hover:bg-blue-600 rounded-xl text-white font-bold w-full h-1/2 duration-500"
-              onClick={() => {
-                if (
-                  JSON.parse(localStorage.getItem("numberOfBars")) > 15 ||
-                  JSON.parse(localStorage.getItem("numberOfBars")) < 3
-                ) {
-                  return;
-                }
-                location.reload();
-              }}
+              onClick={downloadSampleData}
+              className="border hover:bg-blue-600 rounded-xl bg-blue-500 font-bold text-white w-1/2 duration-500"
             >
-              apply
+              downlaod
             </button>
           </div>
-        </div>
-        <div className="change_details">
-          <label>bar colors</label>
-          <div className="flex gap-4">
-            <button
-              className="bg-blue-500 hover:bg-blue-600 rounded-xl text-white font-bold w-full duration-500"
-              onClick={() => {
-                if (localStorage.getItem("cat")) return;
-                localStorage.setItem("cat", "true");
-                location.reload();
-              }}
-            >
-              by bars
-            </button>
-            <button
-              className="bg-blue-500 hover:bg-blue-600 rounded-xl text-white font-bold w-full  duration-500"
-              onClick={() => {
-                if (!localStorage.getItem("cat")) return;
-                localStorage.removeItem("cat");
-                location.reload();
-              }}
-            >
-              by category
-            </button>
-          </div>
-        </div>
-        <div className="get_file w-full mt-1 ">
-          <label className="font-bold mb-2">
-            updload data{" "}
-            <span className="font-normal">
-              {"("}only accept .xlsx file{")"}
-            </span>
-          </label>
-          <input
-            type="file"
-            name="file"
-            accept=".xlsx"
-            onChange={getDatafromLocal}
-          />
-          <div>
-            <button
-              onClick={convertData}
-              className="border hover:bg-orange-600 rounded-xl bg-orange-500 font-bold text-white w-1/2 duration-500"
-            >
-              process data
-            </button>
-          </div>
-        </div>
-        <div className="change_details">
-          <label>sample data</label>
-          <p>sample.xlsx</p>
-          <button
-            onClick={downloadSampleData}
-            className="border hover:bg-blue-600 rounded-xl bg-blue-500 font-bold text-white w-1/2 duration-500"
-          >
-            downlaod
-          </button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
